@@ -25,10 +25,19 @@ public class Question {
     // если правильно-1, если нет- 0, 2- если неизвестно
     {
         last_date=Calendar.getInstance(); //должен установить текущее время
-        size_of_view++;
-        if(click_on_res==0) know = false;
-        else if (click_on_res == 1) know = true;
-        else if (click_on_res == 2) know = false;
+
+        if(click_on_res==0) {
+            know = false;
+            size_of_view++;
+        }
+        else if ((click_on_res == 1)&& know == false) {
+            know = true;
+            size_of_view++;
+        }
+        else if (click_on_res == 2) {
+            know = false;
+            size_of_view++;
+        }
     }
     boolean Getknow_answer() {
         return know;
