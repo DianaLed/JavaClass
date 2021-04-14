@@ -4,17 +4,19 @@ import java.util.GregorianCalendar;
 
 public class Subject {
     String name_of_sub;
-    ArrayList <Question> question;
-    private Calendar date_of_exams; //Дата, когда будет экзамен .. 1.1.1- не вводили
+    private ArrayList <Question> question;
+
     Subject() {
         name_of_sub="";
         question=new ArrayList<Question>();
-        date_of_exams= new GregorianCalendar(1, 1, 1);
     }
-    Subject(String name, int day, int mon, int year ) {
+    Subject(String name) {
         name_of_sub=name;
         question=new ArrayList<Question>();
-        date_of_exams= new GregorianCalendar(year, mon, day);
+    }
+    Subject(String name, ArrayList<Question> arr_questions) {
+        name_of_sub=name;
+        question=arr_questions;
     }
 
     void add_question(Question quest)
@@ -34,18 +36,7 @@ public class Subject {
             if(quest!="")question.get(nom).question = quest;
         }
     }
-    void change_date( int day, int mon, int year){
-        //проверки на дурака нет, вводи все сразу правильно
-        date_of_exams.set(year, mon, day);
-    }
-    String get_Question (int nom){
-        if(nom < question.size() && nom >= 0) return question.get(nom).question;
-        return "ERROR";
-    }
-    String get_Answer(int nom){
-        if(nom < question.size() && nom >= 0) return question.get(nom).answer;
-        return "ERROR";
-    }
+
     Question get_Class_Question (int nom){
         if(nom < question.size() && nom >= 0) return question.get(nom);
         return new Question();
@@ -72,22 +63,109 @@ public class Subject {
         }
         return d;
     }
-    Calendar GetDate() {
-        return date_of_exams;
+
+    //--------------------Выдача вопросов для алгоритма---------
+    int O_most_difficult_n(int max){
+        //выводит вопрос с максимальным количесвом попаданий и при этом не выученный
+        int res=-1;
+        int d=0, d1=0;
+        for(int i=0; i<question.size(); i++){
+            d1=question.get(i).get_size_of_view();
+            if(!(question.get(i).Getknow_answer())&&d1!=0&&(d1>d))
+            {
+                if(d1<max){
+                    d=d1;
+                    res=i;
+                }
+            }
+        }
+        return res;
     }
-    int dd(){
-        return date_of_exams.get(Calendar.DAY_OF_MONTH);
+    int O_most_difficult(int max){
+        //выводит вопрос с максимальным количесвом попаданий и при этом выученный
+        int res=-1;
+        int d=0, d1=0;
+        for(int i=0; i<question.size(); i++){
+            d1=question.get(i).get_size_of_view();
+            if((question.get(i).Getknow_answer())&&d1!=0&&(d1>d))
+            {
+                if(d1<max&&question.get(i).GetDate().day==Calendar.DATE &&question.get(i).GetDate().month==Calendar.MONTH && question.get(i).GetDate().year==Calendar.YEAR){
+                    d=d1;
+                    res=i;
+                }
+            }
+        }
+        return res;
     }
-    int mo(){
-        return date_of_exams.get(Calendar.MONTH);
+    int O_oldest(Date_simple max) { //???
+        int res = -1;
+        Date_simple d = new Date_simple(), d1 = new Date_simple(1, 1, 1);
+        for (int i = 0; i < question.size(); i++) {
+            d = question.get(i).GetDate(); //получили дату
+            if ((question.get(i).Getknow_answer()) && (d1.before(d))) { //знаем вопрос+ d1 до d
+                if(question.get(i).GetDate().before(max)){
+                    d = d1;
+                    res = i;
+                }
+            }
+        }
+        return res;
     }
-    int yy(){
-        return date_of_exams.get(Calendar.YEAR);
+    int O_new(){
+        int res=-1;
+        for (int i = 0; i < question.size(); i++) {
+            if (!(question.get(i).Getknow_answer())){
+                return i;
+            }
+        }
+        return res;
     }
-    int hh(){
-        return  date_of_exams.get(Calendar.HOUR);
+    ArrayList<Integer> O_get_array_new_q(int size){
+        ArrayList<Integer> res=new ArrayList<Integer>();
+        for (int i = 0; i < question.size(); i++) {
+            if (!(question.get(i).Getknow_answer())&&(question.get(i).get_size_of_view()==0)){
+                res.add(i);
+            }
+        }
+        return res;
     }
-    int mi(){
-        return  date_of_exams.get(Calendar.MINUTE);
+
+    int O_size_difficult() {
+        int res = 0;
+        int d1;
+        for (int i = 0; i < question.size(); i++) {
+            d1 = question.get(i).get_size_of_view();
+            if (!(question.get(i).Getknow_answer()) && d1 != 0) {
+                res++;
+            }
+        }
+        return res;
     }
+    int O_size_new(){
+        int res=0;
+        for (int i = 0; i < question.size(); i++) {
+            if (!(question.get(i).Getknow_answer())&&question.get(i).get_size_of_view()==0){
+                res++;
+            }
+        }
+        return res;
+    }
+    //Calendar GetDate() {
+    //    return date_of_exams;
+    //}
+    //int dd(){
+     //   return date_of_exams.get(Calendar.DAY_OF_MONTH);
+   // }
+   // int mo(){
+   //     return date_of_exams.get(Calendar.MONTH);
+   // }
+   // int yy(){
+   //     return date_of_exams.get(Calendar.YEAR);
+   // }
+  //  int hh(){
+   //     return  date_of_exams.get(Calendar.HOUR);
+   // }
+   // int mi(){
+    //    return  date_of_exams.get(Calendar.MINUTE);
+   // }
 }
