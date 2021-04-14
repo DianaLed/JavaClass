@@ -13,4 +13,8 @@ public class PlanToDay {
         size_of_quetion=size_of_quet;
     }
 
+    void change_size_of_quetion(int a){
+        size_of_quetion=a;
+    }
+
 }

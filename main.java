@@ -4,7 +4,7 @@ import java.util.GregorianCalendar;
 
 public class main {
     public static void main(String args[]){
-        System.out.println("Запуск тестов, если что-то выведется, значит не работает.\n");
+        System.out.println("Запуск тестов.\n");
         //Тесты для Date_simple
         {
             System.out.println("Тесты для Date_simple.");
@@ -119,32 +119,143 @@ public class main {
             arr2.get(0).formaintestNOTOUCH(3, false, new Date_simple(8, 1, 2021));
             arr2.get(1).formaintestNOTOUCH(3, false, new Date_simple(9, 1, 2021));
             arr2.get(2).formaintestNOTOUCH(3, true, new Date_simple(10, 1, 2021));
-            arr2.get(3).formaintestNOTOUCH(3, true, new Date_simple(11, 1, 2021));
+            arr2.get(3).formaintestNOTOUCH(3, true, new Date_simple(10, 1, 2021));
             arr2.get(4).formaintestNOTOUCH(0, false, new Date_simple(12, 1, 2021));
             arr2.get(5).formaintestNOTOUCH(0, false, new Date_simple(13, 1, 2021));
             Subject quest1=new Subject("Тестирование", arr2);
             ArrayList <Integer> ar_O=new ArrayList<Integer>();
-            ar_o=quest1.O_get_array_new_q(5);
-            if(!(quest1.O_oldest(new Date_simple(1, 1, 1))==2)){
+            ar_O.addAll(quest1.O_get_array_new_q(5));
+            if(!(ar_O.size()==2&&ar_O.get(0)==4&&ar_O.get(1)==5)){
                 mistaker++;
-                System.out.println("Ошибка O_oldest."+quest1.O_oldest(new Date_simple(1, 1, 1)));
+                System.out.println("Ошибка O_get_array_new_q.");
             }
-
+            ar_O.clear();
+            Date_simple ds=new Date_simple();
+            ds.year++;
+            ar_O.addAll(quest1.O_array_oldest(ds));
+            if(!(ar_O.size()==2)&& ar_O.get(0)==2 &&ar_O.get(1)==2){
+                mistaker++;
+                System.out.println("Ошибка O_oldest.");
+            }
+            ar_O.clear();
+            ar_O.addAll(quest1.O_difficult_q(1000));
+            if(!(ar_O.size()==2&& ar_O.get(0)==2&& ar_O.get(1)==3)){
+                mistaker++;
+                System.out.println("Ошибка O_difficult_q.");
+            }
+            ar_O.clear();
+            ar_O.addAll(quest1.O_base_q(10));
+            if(!(ar_O.size()==2&& ar_O.get(0)==0&& ar_O.get(1)==1)){
+                mistaker++;
+                System.out.println("Ошибка O_base_q.");
+            }
+            if(!(quest1.o_oldest_day().day==10&&quest1.o_oldest_day().month==1&&quest1.o_oldest_day().year==2021)){
+                mistaker++;
+                System.out.println("Ошибка o_oldest_day.");
+            }
+            if(!(quest1.max_size_of_view()==3)){
+                mistaker++;
+                System.out.println("Ошибка max_size_of_view.");
+            }
             if(mistaker==0) System.out.println("Тестирование пройдено успешно.");
             else System.out.println("Тестирование не пройдено.");
         }
 
-        //Тесты для Question
-        /*{
-            System.out.println("Тесты для .");
+
+
+        //Тесты для Study (для их работы у функций надо убрать private)
+        {
+            System.out.println("Тесты для Study.");
             int mistaker=0;
+            ArrayList<Question> arr2=new ArrayList<Question>();
+            arr2.add(new Question("01", "01"));
+            arr2.add(new Question("02", "02"));
+            arr2.add(new Question("03", "03"));
+            arr2.add(new Question("04", "04"));
+            arr2.add(new Question("05", "05"));
+            arr2.add(new Question("06", "06"));
+
+            arr2.get(0).formaintestNOTOUCH(10, false, new Date_simple(8, 1, 2021));
+            arr2.get(1).formaintestNOTOUCH(3, false, new Date_simple(9, 1, 2021));
+            arr2.get(2).formaintestNOTOUCH(3, true, new Date_simple(10, 1, 2021));
+            arr2.get(3).formaintestNOTOUCH(3, true, new Date_simple(10, 1, 2021));
+            arr2.get(4).formaintestNOTOUCH(0, false, new Date_simple(12, 1, 2021));
+            arr2.get(5).formaintestNOTOUCH(7, false, new Date_simple(13, 1, 2021));
+            Subject sub1=new Subject("Тесты", arr2);
+            PlanToSub pts=new PlanToSub(sub1, 10, 4, 2021);
+            Study study=new Study(pts.sub, pts.get_size_q_today(), pts.todaylearned);
+            /*System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
+            System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
+            System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
+            System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
+            System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
+            System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);*/
+            if(mistaker!=0){
+                mistaker++;
+                System.out.println("Ошибка .");
+            }
+
+
+
+
             if(mistaker!=0){
                 mistaker++;
                 System.out.println("Ошибка .");
             }
             if(mistaker==0) System.out.println("Тестирование пройдено успешно.");
             else System.out.println("Тестирование не пройдено.");
-        }*/
+        }
+
+        //Тесты для PlanToSub
+        {
+            System.out.println("Тесты для PlanToSub.");
+            int mistaker=0;
+            ArrayList<Question> arr2=new ArrayList<Question>();
+            arr2.add(new Question("01", "01"));
+            arr2.add(new Question("02", "02"));
+            arr2.add(new Question("03", "03"));
+            arr2.add(new Question("04", "04"));
+            arr2.add(new Question("05", "05"));
+            arr2.add(new Question("06", "06"));
+
+            arr2.get(0).formaintestNOTOUCH(10, false, new Date_simple(8, 1, 2021));
+            arr2.get(1).formaintestNOTOUCH(3, false, new Date_simple(9, 1, 2021));
+            arr2.get(2).formaintestNOTOUCH(3, true, new Date_simple(10, 1, 2021));
+            arr2.get(3).formaintestNOTOUCH(3, true, new Date_simple(10, 1, 2021));
+            arr2.get(4).formaintestNOTOUCH(0, false, new Date_simple(12, 1, 2021));
+            arr2.get(5).formaintestNOTOUCH(7, false, new Date_simple(13, 1, 2021));
+            Subject sub1=new Subject("Тесты", arr2);
+            PlanToSub pts=new PlanToSub(sub1, 10, 4, 2021);
+            pts.add_date_to_study(1, 4, 2021);
+            pts.add_date_to_study(1, 4, 2021);
+            pts.add_date_to_study(2, 4, 2021);
+            pts.add_date_to_study(3, 4, 2021);
+            pts.delete_date_to_study(2, 4, 2021);
+            if(pts.plan_to_day.size()!=2){
+                mistaker++;
+                System.out.println("Ошибка add_date_to_study и delete.");
+            }
+            pts.add_date_to_study(6, 4, 2021);
+            if(pts.plan_to_day.get(2).size_of_quetion!=1){
+                mistaker++;
+                System.out.println("Ошибка do_plan.");
+            }
+
+            pts.add_date_to_study(3, 3, 2021);
+            pts.todaylearned=10;
+            pts.today=new Date_simple(3, 3, 2021);
+            pts.open_prog();
+            if(pts.todaylearned!=0||pts.plan_to_day.get(0).size_of_quetion!=10){
+                System.out.println("Ошибка open_prog()");
+                mistaker++;
+            }
+            pts.plan_to_day.get(0).size_of_quetion=0;
+
+            if(mistaker==0) System.out.println("Тестирование пройдено успешно.");
+            else System.out.println("Тестирование не пройдено.");
+
+        }
+        System.out.println();
         System.out.println("Все тесты окончены.\n");
     }
 
