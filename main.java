@@ -225,17 +225,11 @@ public class main {
             arr2.get(4).formaintestNOTOUCH(0, false, new Date_simple(12, 1, 2021));
             arr2.get(5).formaintestNOTOUCH(7, false, new Date_simple(13, 1, 2021));
             Subject sub1=new Subject("Тесты", arr2);
-            PlanToSub pts=new PlanToSub(sub1, 10, 4, 2021);
-            pts.add_date_to_study(1, 4, 2021);
-            pts.add_date_to_study(1, 4, 2021);
-            pts.add_date_to_study(2, 4, 2021);
-            pts.add_date_to_study(3, 4, 2021);
-            pts.delete_date_to_study(2, 4, 2021);
+            PlanToSub pts=new PlanToSub(sub1, 25, 3, 2021);
             if(pts.plan_to_day.size()!=2){
                 mistaker++;
                 System.out.println("Ошибка add_date_to_study и delete.");
             }
-            pts.add_date_to_study(6, 4, 2021);
             if(pts.plan_to_day.get(2).size_of_quetion!=1){
                 mistaker++;
                 System.out.println("Ошибка do_plan.");
@@ -245,7 +239,7 @@ public class main {
             pts.todaylearned=10;
             pts.today=new Date_simple(3, 3, 2021);
             pts.open_prog();
-            if(pts.todaylearned!=0||pts.plan_to_day.get(0).size_of_quetion!=10){
+            if(pts.todaylearned!=0){
                 System.out.println("Ошибка open_prog()");
                 mistaker++;
             }
@@ -253,7 +247,11 @@ public class main {
 
             if(mistaker==0) System.out.println("Тестирование пройдено успешно.");
             else System.out.println("Тестирование не пройдено.");
-
+            PlanToSub pts1=new PlanToSub(sub1, 25, 3, 2021);
+            System.out.println(pts1.size_today_day_of_exams_plan());
+            for(int i=0; i<pts1.plan_to_day.size(); i++){
+                System.out.println(pts1.plan_to_day.get(i).date.day+"."+pts1.plan_to_day.get(i).date.month+"."+pts1.plan_to_day.get(i).date.year);
+            }
         }
         System.out.println();
         System.out.println("Все тесты окончены.\n");

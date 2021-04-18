@@ -10,10 +10,11 @@ public class PlanToSub {
     private Date_simple date_of_exams; //Дата, когда будет экзамен
     PlanToSub(Subject sub_, int day, int mon, int year){
         sub=sub_;
-        date_of_exams= new Date_simple(year, mon, day);
+        date_of_exams= new Date_simple(day, mon, year);
         plan_to_day=new ArrayList<PlanToDay>();
         todaylearned=0;
         today=new Date_simple();
+        do_date_toDay_dateOfE();
     }
     PlanToSub(Subject sub_, Date_simple today1, int todaylearned1, Date_simple date_of_exams1, ArrayList<PlanToDay> plan_to_day1){
         sub=sub_;
@@ -23,6 +24,15 @@ public class PlanToSub {
         plan_to_day=plan_to_day1;
     }
     //При открытии программы это делать всегда.
+    private void do_date_toDay_dateOfE(){
+        int a=size_today_day_of_exams();
+        Calendar cal=new GregorianCalendar();
+        for(int i=0; i<a; i++){
+            add_date_to_study(cal.get(Calendar.DATE), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+            cal.add(Calendar.DATE, 1);
+        }
+        do_plan();
+    }
     void open_prog(){
         Date_simple av=new Date_simple();
         if(today.before(av)) { //тут проверяется наступил ли новый день
@@ -34,6 +44,7 @@ public class PlanToSub {
             plan_to_day.get(a).size_of_quetion=todaylearned;
             todaylearned=0;
             today=av;
+            do_plan();
         }
     }
     void after_study(Study a, int nom_q, int res){
@@ -60,7 +71,7 @@ public class PlanToSub {
             }
         }
     }
-    private int search_nom_plan(int dat, int mon, int yy){
+     int search_nom_plan(int dat, int mon, int yy){
         Date_simple a=new Date_simple(dat, mon, yy);
         for(int i=0; i<plan_to_day.size(); i++){
             if(a.equally(plan_to_day.get(i).date)) return i;
@@ -96,12 +107,10 @@ public class PlanToSub {
         Calendar a= new GregorianCalendar();
         Calendar b= new GregorianCalendar(date_of_exams.year, date_of_exams.month, date_of_exams.day);
         int res=0;
-        if(a.before(b)){
-            while(a!=b){
-                a.add(Calendar.DATE, 1);
-                res++;
-            } //пока a!=b прибавлять день
-        }
+                while(a.before(b)){
+                    a.add(Calendar.DATE, 1);
+                    res++;
+                } //пока a!=b прибавлять день
         return res;
     }
     int size_today_day_of_exams_plan(){
