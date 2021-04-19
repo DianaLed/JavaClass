@@ -4,6 +4,20 @@ import java.util.GregorianCalendar;
 
 public class main {
     public static void main(String args[]){
+
+
+        {
+            Question a=new Question("Кто?", "Я");
+            Question b=new Question("Что?", "предмет");
+            ArrayList<Question> arr1=new ArrayList<Question>();
+            arr1.add(a);
+            arr1.add(b);
+            Subject sub3=new Subject("Русский язык", arr1);
+            PlanToSub pl=new PlanToSub(sub3, 25, 3, 2021);
+            Study styd=new Study(pl.sub, pl.todaylearned, pl.get_size_q_today());
+        }
+
+
         System.out.println("Запуск тестов.\n");
         //Тесты для Date_simple
         {
@@ -184,12 +198,12 @@ public class main {
             Subject sub1=new Subject("Тесты", arr2);
             PlanToSub pts=new PlanToSub(sub1, 10, 4, 2021);
             Study study=new Study(pts.sub, pts.get_size_q_today(), pts.todaylearned);
-            /*System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
             System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
             System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
             System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
             System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
-            System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);*/
+            System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
+            System.out.println(pts.sub.get_Class_Question(study.STUDY()).question);
             if(mistaker!=0){
                 mistaker++;
                 System.out.println("Ошибка .");
@@ -253,6 +267,7 @@ public class main {
                 System.out.println(pts1.plan_to_day.get(i).date.day+"."+pts1.plan_to_day.get(i).date.month+"."+pts1.plan_to_day.get(i).date.year);
             }
         }
+
         System.out.println();
         System.out.println("Все тесты окончены.\n");
     }

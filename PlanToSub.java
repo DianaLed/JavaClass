@@ -47,7 +47,7 @@ public class PlanToSub {
             do_plan();
         }
     }
-    void after_study(Study a, int nom_q, int res){
+    void after_study(int nom_q, int res){
         if(res==1) todaylearned++;
         if(res==0) todaylearned--;
         sub.get_Class_Question(nom_q).base_click(res);
@@ -127,22 +127,36 @@ public class PlanToSub {
     private void do_plan(){
         int size_of_fall_qwestion=sub.get_size_no_know(); //количество не выученных вопросов
         int size_of_days=size_today_day_of_exams_plan(); //количество дней до экзамена
-        int average; //среднее арифметическое
-        if(size_of_days==0) average=0;
-        else average=size_of_fall_qwestion/size_of_days;
-        if(average*size_of_days==size_of_fall_qwestion) //если чудом все поделилось нацело
-            for(int i=size_today_day_of_exams(); i<plan_to_day.size(); i++){
-                plan_to_day.get(i).change_size_of_quetion(average);
+        int nom_today=search_nom_plan(new Date_simple().day, new Date_simple().month, new Date_simple().year);
+        if (nom_today==-1){
+            Calendar cal=new GregorianCalendar();
+            cal.add(Calendar.DATE, 1);
+            nom_today=search_nom_plan(cal.get(Calendar.DATE), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+            while(nom_today==-1){
+                cal.add(Calendar.DATE, 1);
+                nom_today=search_nom_plan(cal.get(Calendar.DATE), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+                    if(cal.get(Calendar.DATE)== date_of_exams.day && cal.get(Calendar.MONTH)== date_of_exams.month && cal.get(Calendar.YEAR)== date_of_exams.year) break;
             }
-        else{ //если не поделилось на цело
-            int s=size_of_fall_qwestion-average*size_of_days; //считаем остаток
-            for(int i=size_today_day_of_exams(); i<plan_to_day.size(); i++){
-                if(s!=0) { //добавляем этот остаток, пока он не иссякнет
-                    plan_to_day.get(i).change_size_of_quetion(average+1);
-                    s--;
-               } else plan_to_day.get(i).change_size_of_quetion(average);
+        }
+        if(nom_today!=-1){
+            int average; //среднее арифметическое
+            if(size_of_days==0) average=0;
+            else average=size_of_fall_qwestion/size_of_days;
+            if(average*size_of_days==size_of_fall_qwestion) //если чудом все поделилось нацело
+                for(int i=nom_today; i<plan_to_day.size(); i++){
+                    plan_to_day.get(i).change_size_of_quetion(average);
+                }
+            else{ //если не поделилось на цело
+                int s=size_of_fall_qwestion-average*size_of_days; //считаем остаток
+                for(int i=nom_today; i<plan_to_day.size(); i++){
+                    if(s!=0) { //добавляем этот остаток, пока он не иссякнет
+                        plan_to_day.get(i).change_size_of_quetion(average+1);
+                        s--;
+                    } else plan_to_day.get(i).change_size_of_quetion(average);
+                }
             }
-       }
+        }
+
     } //план создается для ненаступивших дат и количества невыученных вопросов.
     void change_date_of_exams( int day, int mon, int year){
     //проверки на дурака нет, вводи все сразу правильно
